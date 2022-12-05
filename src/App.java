@@ -8,12 +8,13 @@ public static void  main(String[] args) {
   System.out.println("ArrayList Demo");
 
   //create an ArrayList object
-  ArrayList<String> mylist = new ArrayList<String>();
+  ArrayList<String> mylist = new ArrayList<>();
 
   
   //Add items to it
   mylist.add("apples");
   mylist.add("oranges");
+  
   
   //Loop over and print the items
   for (String item : mylist) {
@@ -27,8 +28,9 @@ public static void  main(String[] args) {
   int count = mylist.size();
   System.out.println(count);
 
+ 
 }
-
+ 
 
 
 }
