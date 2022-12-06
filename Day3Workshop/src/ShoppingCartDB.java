@@ -112,7 +112,7 @@ public class ShoppingCartDB {
                 break;
 
             case USERS:
-                break;
+                this.ListUsersAction();
 
             default:
                 break;
@@ -137,6 +137,12 @@ public class ShoppingCartDB {
     public void ListAction() {
         for (String item : this.db.userMap.get(this.currentUser)) {
             System.out.println("Item -> " + item);
+        }
+    }
+    
+    public void ListUsersAction() {
+        for (String key: this.db.userMap.keySet()) {
+            System.out.println("-> " + key);
         }
     }
 
