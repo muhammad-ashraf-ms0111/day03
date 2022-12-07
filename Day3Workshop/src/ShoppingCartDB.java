@@ -1,6 +1,7 @@
 package Day3Workshop.src;
 
 //import java.io.File;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,17 +14,17 @@ import java.util.Scanner;
 
 public class ShoppingCartDB {
 
-  public static final String LOGIN = "login";
-  public static final String ADD = "add";
-  public static final String LIST = "list";
-  public static final String SAVE = "save";
-  public static final String EXIT = "exit";
-  public static final String USERS = "users";
+    public static final String LOGIN = "login";
+    public static final String ADD = "add";
+    public static final String LIST = "list";
+    public static final String SAVE = "save";
+    public static final String EXIT = "exit";
+    public static final String USERS = "users";
 
-  public static final List<String> VALID_COMMANDS = Arrays.asList(
-      LOGIN, SAVE, ADD, LIST, USERS, EXIT);
-  
-    
+    public static final List<String> VALID_COMMANDS = Arrays.asList(
+            LOGIN, SAVE, ADD, LIST, USERS, EXIT);
+
+
     private CardDBInMemory db;
     private String currentUser;
     private String baseFolder;
@@ -40,13 +41,13 @@ public class ShoppingCartDB {
         this.db = new CardDBInMemory(this.baseFolder);
     }
 
-    public void setup(){
+    public void setup() {
         Path p = Paths.get(this.baseFolder);
         if (Files.isDirectory(p)) {
             // SKIP if directory already exits
         } else {
             try {
-            Files.createDirectory(p);
+                Files.createDirectory(p);
             } catch (IOException e) {
                 System.out.println("Error :" + e.getMessage());
             }
@@ -55,7 +56,7 @@ public class ShoppingCartDB {
 
     public void startShell() {
         System.out.println("Welcome to MultiUser Shopping Cart >> ");
-        Scanner sc =  new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         String line;
         boolean stop = false;
 
@@ -74,10 +75,11 @@ public class ShoppingCartDB {
                 System.out.println("Processing : " + line);
                 this.ProcessInput(line);
             }
-            
+
         }
         sc.close();
     }
+
     public boolean ValidateInput(String input) {
         String[] parts = input.split(" ");
         String command = parts[0].trim();
@@ -88,7 +90,7 @@ public class ShoppingCartDB {
 
     // Process command
     public void ProcessInput(String input) {
-        Scanner sc  = new Scanner(input);
+        Scanner sc = new Scanner(input);
         String command = sc.next().trim();
 
         switch (command) {
@@ -139,23 +141,23 @@ public class ShoppingCartDB {
             System.out.println("Item -> " + item);
         }
     }
-    
+
     public void ListUsersAction() {
-        for (String key: this.db.userMap.keySet()) {
+        for (String key : this.db.userMap.keySet()) {
             System.out.println("-> " + key);
         }
     }
 
-    public void SaveAction() {        
+    public void SaveAction() {
         // Prepare the filePath = "db/<username>.db"
-        String outputFilename = String.format("%s/%s.db", 
-        this.baseFolder, this.currentUser);
+        String outputFilename = String.format("%s/%s.db",
+                this.baseFolder, this.currentUser);
 
         try {
             FileWriter fw = new FileWriter(outputFilename);
             // Save the contents for this user in Map to a file.
             for (String item : this.db.userMap.get(this.currentUser)) {
-                fw.write(item +"\n");
+                fw.write(item + "\n");
             }
             fw.flush();
             fw.close();
@@ -163,8 +165,7 @@ public class ShoppingCartDB {
             e.printStackTrace();
         }
 
-        
-        
+
     }
 
 }

@@ -11,8 +11,8 @@ import java.util.HashMap;
 
 
 public class CardDBInMemory {
-  
-    
+
+
     public HashMap<String, ArrayList<String>> userMap = new HashMap<String, ArrayList<String>>();
 
     public CardDBInMemory(String baseFolder) {
@@ -27,7 +27,7 @@ public class CardDBInMemory {
             public boolean accept(File dir, String filename) {
                 return filename.endsWith(".db");
             }
-            
+
         });
         if (filteredFiles.length == 0) {
             return;
