@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class CardDBInMemory {
+public class CartDBInMemory {
 
 
     public HashMap<String, ArrayList<String>> userMap = new HashMap<String, ArrayList<String>>();
 
-    public CardDBInMemory(String baseFolder) {
+    public CartDBInMemory(String baseFolder) {
         this.loadDataFromFiles(baseFolder);
     }
 

@@ -1,7 +1,5 @@
 package Day3Workshop.src;
 
-//import java.io.File;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,35 +12,40 @@ import java.util.Scanner;
 
 public class ShoppingCartDB {
 
-    public static final String LOGIN = "login";
+    static final String LOGIN = "login";
     public static final String ADD = "add";
-    public static final String LIST = "list";
-    public static final String SAVE = "save";
-    public static final String EXIT = "exit";
-    public static final String USERS = "users";
+    protected static final String LIST = "list";
+    private static final String SAVE = "save";
+    private static final String EXIT = "exit";
+    private static final String USERS = "users";
 
     public static final List<String> VALID_COMMANDS = Arrays.asList(
-            LOGIN, SAVE, ADD, LIST, USERS, EXIT);
+            LOGIN,
+            SAVE,
+            ADD,
+            LIST,
+            USERS,
+            EXIT
+    );
 
-
-    private CardDBInMemory db;
+    private CartDBInMemory cartDatabase;
     private String currentUser;
     private String baseFolder;
 
     public ShoppingCartDB() {
-        this.baseFolder = "db"; // default
-        this.setup();
-        this.db = new CardDBInMemory(this.baseFolder);
+        baseFolder = "db";
+        setup();
+        cartDatabase = new CartDBInMemory(baseFolder);
     }
 
     public ShoppingCartDB(String baseFolder) {
         this.baseFolder = baseFolder;
-        this.setup();
-        this.db = new CardDBInMemory(this.baseFolder);
+        setup();
+        cartDatabase = new CartDBInMemory(baseFolder);
     }
 
     public void setup() {
-        Path p = Paths.get(this.baseFolder);
+        Path p = Paths.get(baseFolder);
         if (Files.isDirectory(p)) {
             // SKIP if directory already exits
         } else {
@@ -68,19 +71,17 @@ public class ShoppingCartDB {
                 System.out.println("Exiting !!!");
                 stop = true;
             }
-            // Validate Command
-            if (!this.ValidateInput(line)) {
-                System.out.println("Invalid Input: ^^");
-            } else {
+            if (isInputValid(line)) {
                 System.out.println("Processing : " + line);
-                this.ProcessInput(line);
+                processInput(line);
+            } else {
+                System.out.println("Invalid Input: ^^");
             }
-
         }
         sc.close();
     }
 
-    public boolean ValidateInput(String input) {
+    public boolean isInputValid(String input) {
         String[] parts = input.split(" ");
         String command = parts[0].trim();
         // Scanner lsc = new Scanner(input);
@@ -89,74 +90,73 @@ public class ShoppingCartDB {
     }
 
     // Process command
-    public void ProcessInput(String input) {
+    public void processInput(String input) {
         Scanner sc = new Scanner(input);
         String command = sc.next().trim();
 
         switch (command) {
             case LOGIN:
                 String username = sc.nextLine().trim();
-                this.LoginAction(username);
-                System.out.println("Print - current logged in user" + this.currentUser);
+                loginAction(username);
+                System.out.println("Print - current logged in user" + currentUser);
                 break;
 
             case LIST:
-                this.ListAction();
+                listAction();
                 break;
 
             case ADD:
                 String[] items = sc.nextLine().trim().split(",");
-                this.AddAction(items);
+                addAction(items);
                 break;
 
             case SAVE:
-                this.SaveAction();
+                saveAction();
                 break;
 
             case USERS:
-                this.ListUsersAction();
+                listUsersAction();
 
             default:
                 break;
         }
-
         sc.close();
     }
 
-    public void LoginAction(String username) {
-        if (!this.db.userMap.containsKey(username)) {
-            this.db.userMap.put(username, new ArrayList<String>());
+    public void loginAction(String username) {
+        if (!cartDatabase.userMap.containsKey(username)) {
+            cartDatabase.userMap.put(username, new ArrayList<String>());
         }
-        this.currentUser = username;
+        currentUser = username;
     }
 
-    public void AddAction(String[] items) {
+    public void addAction(String[] items) {
         for (String item : items) {
-            this.db.userMap.get(this.currentUser).add(item.trim());
+            cartDatabase.userMap.get(currentUser).add(item.trim());
         }
     }
 
-    public void ListAction() {
-        for (String item : this.db.userMap.get(this.currentUser)) {
+    public void listAction() {
+        for (String item : cartDatabase.userMap.get(currentUser)) {
             System.out.println("Item -> " + item);
         }
     }
 
-    public void ListUsersAction() {
-        for (String key : this.db.userMap.keySet()) {
+    public void listUsersAction() {
+        for (String key : cartDatabase.userMap.keySet()) {
             System.out.println("-> " + key);
         }
     }
 
-    public void SaveAction() {
+    public void saveAction() {
         // Prepare the filePath = "db/<username>.db"
         String outputFilename = String.format("%s/%s.db",
-                this.baseFolder, this.currentUser);
+                baseFolder, currentUser);
 
         try {
             FileWriter fw = new FileWriter(outputFilename);
             // Save the contents for this user in Map to a file.
-            for (String item : this.db.userMap.get(this.currentUser)) {
+            for (String item : cartDatabase.userMap.get(currentUser)) {
                 fw.write(item + "\n");
             }
             fw.flush();
@@ -164,8 +164,5 @@ public class ShoppingCartDB {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
-
 }
