@@ -149,9 +149,8 @@ public class ShoppingCartDB {
     }
 
     public void saveAction() {
-        // Prepare the filePath = "db/<username>.db"
-        String outputFilename = String.format("%s/%s.db",
-                baseFolder, currentUser);
+        // Prepare the filePath = "db/<username>.txt"
+        String outputFilename = String.format("%s/%s.txt", baseFolder, currentUser);
 
         try {
             FileWriter fw = new FileWriter(outputFilename);
