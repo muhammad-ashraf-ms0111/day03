@@ -23,7 +23,7 @@ public class App {
         //Remove apples from the list
         mylist.remove("apples");
 
-        //Print the no of item ionside the list
+        //Print the no of item inside the list
         int count = mylist.size();
         System.out.println(count);
 

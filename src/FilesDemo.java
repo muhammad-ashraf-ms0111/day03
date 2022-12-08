@@ -13,8 +13,8 @@ public class FilesDemo {
 
     public static void main(String[] args) {
 
-        String filePath = "src/demo.txt";
-        ReadFile(filePath);
+        //String filePath = "src/demo.txt";
+        ReadFile("src/demo.txt");
         WriteFile("src/output.txt");
     }
 
