@@ -18,7 +18,7 @@ public class CartDBInMemory {
     public CartDBInMemory(String baseFolder) {
         this.loadDataFromFiles(baseFolder);
     }
-
+//loading file
     public void loadDataFromFiles(String baseFolder) {
         File f = new File(baseFolder);
         File[] filteredFiles = f.listFiles(new FilenameFilter() {
@@ -38,7 +38,7 @@ public class CartDBInMemory {
             this.userMap.put(userKey, ReadFile(file));
         }
     }
-
+// read file
     public ArrayList<String> ReadFile(File f) {
         ArrayList<String> dataList = new ArrayList<String>();
         try {

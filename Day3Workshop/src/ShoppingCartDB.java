@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 public class ShoppingCartDB {
 
+    // commands for shoppingcart 
+    // static and final to create contant
     static final String LOGIN = "login";
     public static final String ADD = "add";
     protected static final String LIST = "list";
@@ -32,19 +34,23 @@ public class ShoppingCartDB {
     private String currentUser;
     private String baseFolder;
 
+
+    //default constructor
     public ShoppingCartDB() {
         baseFolder = "db";
         setup();
         cartDatabase = new CartDBInMemory(baseFolder);
     }
 
+    // Overloading of constructor
     public ShoppingCartDB(String baseFolder) {
         this.baseFolder = baseFolder;
-        setup();
+        setup(); // <= method
         cartDatabase = new CartDBInMemory(baseFolder);
     }
 
     public void setup() {
+        // checking whether its a folder if not create
         Path p = Paths.get(baseFolder);
         if (Files.isDirectory(p)) {
             // SKIP if directory already exits
@@ -57,6 +63,7 @@ public class ShoppingCartDB {
         }
     }
 
+    //method to start the cart
     public void startShell() {
         System.out.println("Welcome to MultiUser Shopping Cart >> ");
         Scanner sc = new Scanner(System.in);
