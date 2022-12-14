@@ -106,7 +106,7 @@ public class ShoppingCartDB {
             case LOGIN:
                 String username = sc.nextLine().trim();
                 loginAction(username);
-                System.out.println("Print - current logged in user" + currentUser);
+                System.out.println("Print - current logged in user " + currentUser);
                 break;
 
             case LIST:
