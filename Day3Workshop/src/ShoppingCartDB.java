@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class ShoppingCartDB {
 
     // commands for shoppingcart 
-    // static and final to create contant
+    // static and final to create contants
     static final String LOGIN = "login";
     public static final String ADD = "add";
     protected static final String LIST = "list";
@@ -66,28 +66,29 @@ public class ShoppingCartDB {
     //method to start the cart
     public void startShell() {
         System.out.println("Welcome to MultiUser Shopping Cart >> ");
-        Scanner sc = new Scanner(System.in);
-        String line;
+        Scanner scan = new Scanner(System.in);
+        String input;
         boolean stop = false;
 
         while (!stop) {
-            line = sc.nextLine();
-            line = line.trim();
-            System.out.println("=> " + line);
-            if (line.equalsIgnoreCase("exit")) {
+            input = scan.nextLine();
+            input = input.trim();
+            System.out.println("=> " + input);
+            if (input.equalsIgnoreCase("exit")) {
                 System.out.println("Exiting !!!");
                 stop = true;
             }
-            if (isInputValid(line)) {
-                System.out.println("Processing : " + line);
-                processInput(line);
+            if (isInputValid(input)) {
+                System.out.println("Processing : " + input);
+                processInput(input);
             } else {
                 System.out.println("Invalid Input: ^^");
             }
         }
-        sc.close();
+        scan.close();
     }
 
+    //method to check input validity
     public boolean isInputValid(String input) {
         String[] parts = input.split(" ");
         String command = parts[0].trim();
@@ -96,7 +97,7 @@ public class ShoppingCartDB {
         return VALID_COMMANDS.contains(command);
     }
 
-    // Process command
+    // Process command method
     public void processInput(String input) {
         Scanner sc = new Scanner(input);
         String command = sc.next().trim();
@@ -130,6 +131,7 @@ public class ShoppingCartDB {
         sc.close();
     }
 
+    //methods for different commands
     public void loginAction(String username) {
         if (!cartDatabase.userMap.containsKey(username)) {
             cartDatabase.userMap.put(username, new ArrayList<String>());
